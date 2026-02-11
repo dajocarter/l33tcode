@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { maxMeetings } from ".";
+import { maxMeetings, mergeOverlappingIntervals } from ".";
 
 describe("Max meetings for one room", () => {
 	test("Simple values", () => {
@@ -13,5 +13,22 @@ describe("Max meetings for one room", () => {
 		const F = [112960, 114515, 81825, 93424, 54316, 35533, 73383, 160252];
 		const result = maxMeetings(S, F);
 		expect(result).toEqual([6, 7, 1]);
+	});
+});
+
+describe("Merge overlapping intervals", () => {
+	test("Simple example", () => {
+		const intervals = [
+			[1, 3],
+			[2, 6],
+			[8, 10],
+			[15, 18],
+		];
+		const result = mergeOverlappingIntervals(intervals);
+		expect(result).toEqual([
+			[1, 6],
+			[8, 10],
+			[15, 18],
+		]);
 	});
 });
