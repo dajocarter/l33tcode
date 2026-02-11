@@ -6,13 +6,6 @@
  * The task is to find the maximum number of meetings that can be accommodated in the meeting room.
  *
  * Print all meeting numbers.
- *
- * Example 1:
- * Input:
- * N = 6
- * S[] = {1, 3, 0, 5, 8, 5}
- * F[] = {2, 4, 6, 7, 9, 9}
- * Output: [1, 2, 4, 5]
  * */
 export function maxMeetings(S, F) {
 	const meetings = S.map((start, index) => ({
