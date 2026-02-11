@@ -19,7 +19,7 @@ export function maxMeetings(S, F) {
   let result = [meetings[0].index]
   let lastFinish = meetings[0].finish
   for (let i = 1; i < meetings.length; i++) {
-    if (meetings[i].start > lastFinish) {
+    if (meetings[i].start >= lastFinish) {
       result.push(meetings[i].index)
       lastFinish = meetings[i].finish
     }
