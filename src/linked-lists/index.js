@@ -1,21 +1,21 @@
 export class Node {
-	constructor() {
-		this.value = 0;
-		this.next = null;
-	}
+  constructor(value = 0, next = null) {
+    this.value = value
+    this.next = next
+  }
 }
 
 export function reverseLinkedList(list) {
-	let reversedList = list;
-	let restOfList = list.next;
-	reversedList.next = null;
+  let reversedList = list
+  let restOfList = list.next
+  reversedList.next = null
 
-	while (restOfList) {
-		const temp = restOfList;
-		restOfList = restOfList.next;
-		temp.next = reversedList;
-		reversedList = temp;
-	}
+  while (restOfList) {
+    const temp = restOfList
+    restOfList = restOfList.next
+    temp.next = reversedList
+    reversedList = temp
+  }
 
-	return reversedList;
+  return reversedList
 }
