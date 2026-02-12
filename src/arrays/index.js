@@ -1,12 +1,3 @@
-/*
- * There is one meeting room in a firm.
- *
- * There are N meetings in the form of (S[i], F[i]) where S[i] is the start time of meeting i and F[i] is finish time of meeting i.
- *
- * The task is to find the maximum number of meetings that can be accommodated in the meeting room.
- *
- * Print all meeting numbers.
- * */
 export function maxMeetings(S, F) {
   const meetings = S.map((start, index) => ({
     start,
@@ -44,4 +35,20 @@ export function mergeOverlappingIntervals(intervals) {
     }
   }
   return merged
+}
+
+export function minMeetingRooms(intervals) {
+  if (intervals.length === 0) return 0
+  intervals.sort((a, b) => a[0] - b[0])
+  let rooms = [intervals[0]]
+  let endOfLastMeeting = intervals[0][1]
+  for (let i = 1; i < intervals.length; i++) {
+    if (intervals[i][0] < endOfLastMeeting) {
+      rooms.push(intervals[i])
+    } else {
+      rooms[rooms.length - 1].push(intervals[i])
+    }
+    endOfLastMeeting = intervals[i][1]
+  }
+  return rooms.length
 }

@@ -1,6 +1,15 @@
 import { describe, expect, test } from 'vitest'
-import { maxMeetings, mergeOverlappingIntervals } from '.'
+import { maxMeetings, mergeOverlappingIntervals, minMeetingRooms } from '.'
 
+/*
+ * There is one meeting room in a firm.
+ *
+ * There are N meetings in the form of (S[i], F[i]) where S[i] is the start time of meeting i and F[i] is finish time of meeting i.
+ *
+ * The task is to find the maximum number of meetings that can be accommodated in the meeting room.
+ *
+ * Print all meeting numbers.
+ * */
 describe('Max meetings for one room', () => {
   test('Basic meeting schedule', () => {
     const S = [1, 3, 0, 5, 8, 5]
@@ -139,5 +148,70 @@ describe('Merge overlapping intervals', () => {
     ]
     const result = mergeOverlappingIntervals(intervals)
     expect(result).toEqual([[1, 20]])
+  })
+})
+
+/*
+Question:
+Given an array of meeting time intervals where intervals[i] = [start, end],
+return the minimum number of conference rooms required.
+
+A meeting cannot use a room if another meeting is in that room at the same time.
+*/
+describe('minMeetingRooms', () => {
+  test('basic overlap', () => {
+    const input = [
+      [0, 30],
+      [5, 10],
+      [15, 20],
+    ]
+    expect(minMeetingRooms(input)).toBe(2)
+  })
+
+  test('no overlaps', () => {
+    const input = [
+      [7, 10],
+      [12, 15],
+      [20, 25],
+    ]
+    expect(minMeetingRooms(input)).toBe(1)
+  })
+
+  test('all overlapping', () => {
+    const input = [
+      [1, 10],
+      [2, 9],
+      [3, 8],
+      [4, 7],
+    ]
+    expect(minMeetingRooms(input)).toBe(4)
+  })
+
+  test('meetings touching (no overlap)', () => {
+    const input = [
+      [1, 5],
+      [5, 10],
+      [10, 15],
+    ]
+    expect(minMeetingRooms(input)).toBe(1)
+  })
+
+  test('unsorted input', () => {
+    const input = [
+      [15, 20],
+      [0, 30],
+      [5, 10],
+    ]
+    expect(minMeetingRooms(input)).toBe(2)
+  })
+
+  test('single meeting', () => {
+    const input = [[1, 5]]
+    expect(minMeetingRooms(input)).toBe(1)
+  })
+
+  test('empty input', () => {
+    const input = []
+    expect(minMeetingRooms(input)).toBe(0)
   })
 })
