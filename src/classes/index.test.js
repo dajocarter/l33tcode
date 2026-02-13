@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { LRU_Array_Cache, LRU_Map_Cache } from '.'
+import { LRU_Array_Cache, LRU_Map_Cache, LRU_LinkedList_Cache } from '.'
 
 /*
 Design and implement a data structure for Least Recently Used (LRU) cache.
@@ -17,6 +17,7 @@ All operations must be O(1).
 const implementations = [
   { name: 'Array', Class: LRU_Array_Cache },
   { name: 'Map', Class: LRU_Map_Cache },
+  { name: 'DoublyLinkedList', Class: LRU_LinkedList_Cache },
 ]
 
 implementations.forEach(({ name, Class }) => {

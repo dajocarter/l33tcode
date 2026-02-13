@@ -1,3 +1,12 @@
+export class Node {
+  constructor(key, value) {
+    this.key = key
+    this.value = value
+    this.prev = null
+    this.next = null
+  }
+}
+
 export class LRU_Array_Cache {
   constructor(capacity) {
     this.capacity = capacity
@@ -78,5 +87,56 @@ export class LRU_Map_Cache {
     }
     // add to end as most recent
     this.cache.set(key, value)
+  }
+}
+
+export class LRU_LinkedList_Cache {
+  constructor(capacity) {
+    this.capacity = capacity
+    this.cache = new Map()
+    this.leastRecent = new Node(0, 0)
+    this.mostRecent = new Node(0, 0)
+    this.leastRecent.next = this.mostRecent
+    this.mostRecent.prev = this.leastRecent
+  }
+
+  remove(node) {
+    const prev = node.prev
+    const nxt = node.next
+    prev.next = nxt
+    nxt.prev = prev
+  }
+
+  insert(node) {
+    const prev = this.mostRecent.prev
+    prev.next = node
+    node.prev = prev
+    node.next = this.mostRecent
+    this.mostRecent.prev = node
+  }
+
+  get(key) {
+    if (!this.cache.has(key)) return -1
+
+    const node = this.cache.get(key)
+    this.remove(node)
+    this.insert(node)
+    return node.value
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this.remove(this.cache.get(key))
+    }
+
+    const node = new Node(key, value)
+    this.cache.set(key, node)
+    this.insert(node)
+
+    if (this.cache.size > this.capacity) {
+      const lru = this.leastRecent.next
+      this.remove(lru)
+      this.cache.delete(lru.key)
+    }
   }
 }
