@@ -1,5 +1,5 @@
 import { expect, test, describe } from 'vitest'
-import { Node, reverseLinkedList } from '.'
+import { Node, reverseLinkedList, mergeLinkedLists } from '.'
 
 describe('Reverse a linked list', () => {
   test('Reverse a linked list with multiple nodes', () => {
@@ -46,13 +46,15 @@ describe('Reverse a linked list', () => {
     )
     const reversedList = reverseLinkedList(list)
 
-    const values = []
-    let current = reversedList
-    while (current) {
-      values.push(current.value)
-      current = current.next
-    }
-    expect(values).toEqual([7, 6, 5, 4, 3, 2, 1])
+    expect(reversedList).toEqual(
+      new Node(
+        7,
+        new Node(
+          6,
+          new Node(5, new Node(4, new Node(3, new Node(2, new Node(1))))),
+        ),
+      ),
+    )
   })
 
   test('Reverse list with negative values', () => {
@@ -67,12 +69,103 @@ describe('Reverse a linked list', () => {
     const list = new Node(-5, new Node(3, new Node(-1, new Node(0))))
     const reversedList = reverseLinkedList(list)
 
-    const values = []
-    let current = reversedList
-    while (current) {
-      values.push(current.value)
-      current = current.next
-    }
-    expect(values).toEqual([0, -1, 3, -5])
+    expect(reversedList).toEqual(
+      new Node(0, new Node(-1, new Node(3, new Node(-5)))),
+    )
+  })
+})
+
+describe('Merge two sorted linked lists', () => {
+  test('merge two same-length lists', () => {
+    const l1 = new Node(1, new Node(3, new Node(5)))
+    const l2 = new Node(2, new Node(4, new Node(6)))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(
+      new Node(
+        1,
+        new Node(2, new Node(3, new Node(4, new Node(5, new Node(6))))),
+      ),
+    )
+  })
+
+  test('different lengths', () => {
+    const l1 = new Node(1, new Node(2))
+    const l2 = new Node(3, new Node(4, new Node(5, new Node(6))))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(
+      new Node(
+        1,
+        new Node(2, new Node(3, new Node(4, new Node(5, new Node(6))))),
+      ),
+    )
+  })
+
+  test('one list empty', () => {
+    const l1 = null
+    const l2 = new Node(1, new Node(2, new Node(3)))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(new Node(1, new Node(2, new Node(3))))
+  })
+
+  test('both lists empty', () => {
+    const merged = mergeLinkedLists(null, null)
+    expect(merged).toBeNull()
+  })
+
+  test('duplicates across lists', () => {
+    const l1 = new Node(1, new Node(3, new Node(5)))
+    const l2 = new Node(1, new Node(3, new Node(5)))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(
+      new Node(
+        1,
+        new Node(1, new Node(3, new Node(3, new Node(5, new Node(5))))),
+      ),
+    )
+  })
+
+  test('negative values', () => {
+    const l1 = new Node(-10, new Node(-3, new Node(0)))
+    const l2 = new Node(-5, new Node(2))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(
+      new Node(-10, new Node(-5, new Node(-3, new Node(0, new Node(2))))),
+    )
+  })
+
+  test('all values in one list smaller', () => {
+    const l1 = new Node(1, new Node(2, new Node(3)))
+    const l2 = new Node(10, new Node(20))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(
+      new Node(1, new Node(2, new Node(3, new Node(10, new Node(20))))),
+    )
+  })
+
+  test('alternating merge', () => {
+    const l1 = new Node(1, new Node(4, new Node(7)))
+    const l2 = new Node(2, new Node(3, new Node(8)))
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(
+      new Node(
+        1,
+        new Node(2, new Node(3, new Node(4, new Node(7, new Node(8))))),
+      ),
+    )
+  })
+
+  test('single nodes', () => {
+    const l1 = new Node(1)
+    const l2 = new Node(2)
+
+    const merged = mergeLinkedLists(l1, l2)
+    expect(merged).toEqual(new Node(1, new Node(2)))
   })
 })
